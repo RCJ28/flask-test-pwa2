@@ -1,5 +1,7 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
     <meta name="theme-color" content="#317EFB"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{url_for('static', filename='icons/icon_144x144.png')}}" type="image/png">
@@ -10,18 +12,59 @@
     <link rel="apple-touch-icon" href="{{url_for('static', filename='icons/icon_512x512.png')}}" type="image/png">
     <link rel="manifest" href="/manifest.json">
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register("/sw.js").then(function(registration) {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function(err) {
-            console.log('ServiceWorker registration failed: ', err);
-          });
-        });
-      }
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register("/sw.js").then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
     </script>
-  </head>
-  <body>
+    <title>Add Two Numbers</title>
+    <style>
+        form {
+            margin: 20px 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
     <h1>This is a very long name for a simple PWA</h1>
-  </body>
+    <form id="addForm">
+        <label for="num1">Number 1:</label>
+        <input type="text" id="num1" name="num1" required>
+        <br><br>
+        <label for="num2" style="padding-top:5px;">Number 2:</label>
+        <input type="text" id="num2" name="num2" required>
+        <br>
+        <button type="submit">Add</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('addForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const num1 = document.getElementById('num1').value;
+            const num2 = document.getElementById('num2').value;
+            fetch('/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `num1=${num1}&num2=${num2}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent = `Result: ${data.result}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
 </html>
