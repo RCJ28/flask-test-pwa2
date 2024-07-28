@@ -1,5 +1,5 @@
 from flask import Flask, render_template, send_file, request, jsonify
-import pandas as pd
+
 app = Flask(__name__)
 
 @app.route('/')
