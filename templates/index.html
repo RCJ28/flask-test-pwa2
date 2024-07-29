@@ -31,10 +31,20 @@
             margin-top: 20px;
             font-size: 1.2em;
         }
+        #file-content {
+            margin-top: 20px;
+            font-size: 1em;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
     <h1>This is a very long name for a simple PWA</h1>
+
+    <h2>Content of content.txt</h2>
+    <div id="file-content">{{ content }}</div>
+
+    <h2>Add Two Numbers</h2>
     <form id="addForm">
         <label for="num1">Number 1:</label>
         <input type="text" id="num1" name="num1" required>

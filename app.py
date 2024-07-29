@@ -1,10 +1,21 @@
 from flask import Flask, render_template, send_file, request, jsonify
-import pandas
+import os
+
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    file_path = './content.txt'
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                content = file.read()
+        else:
+            content = "Unable to find file"
+    except Exception as e:
+        content = "Unable to find file"
+
+    return render_template("index.html", content=content)
 
 @app.route('/sw.js')
 def serve_sw():
