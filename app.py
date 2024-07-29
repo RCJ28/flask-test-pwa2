@@ -1,5 +1,6 @@
 from flask import Flask, render_template, send_file, request, jsonify
 import os
+import test
 
 app = Flask(__name__)
 
@@ -14,6 +15,9 @@ def index():
             content = "Unable to find file"
     except Exception as e:
         content = "Unable to find file"
+    hello_msg = test.say_hello()
+    content = content + '\n' + hello_msg
+    
 
     return render_template("index.html", content=content)
 
